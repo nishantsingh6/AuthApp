@@ -2,7 +2,7 @@
   "name": "authapp",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "AuthApp/index.js",
   "scripts": {
     "test": "node index.js",
     "dev": "nodemon index.js"
