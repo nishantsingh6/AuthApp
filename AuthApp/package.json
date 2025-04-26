@@ -4,8 +4,7 @@
   "description": "",
   "main": "AuthApp/index.js",
   "scripts": {
-    "test": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node AuthApp/index.js"
   },
   "keywords": [],
   "author": "",
