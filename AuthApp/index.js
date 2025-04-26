@@ -7,7 +7,12 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
  app.use(express.json());
- app.use(cors());
+const allowedOrigins = ['https://auth-app-bmpl.onrender.com'];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 
  require('dotenv').config();
 
