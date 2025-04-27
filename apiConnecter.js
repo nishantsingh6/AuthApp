@@ -1,11 +1,11 @@
 import axios from "axios";
  
 
-console.log('Vite API URL:', process.env.VITE_API_URL);
- // Check the value of your base URL
+// Optional: just for testing
+console.log("✅ API URL:", import.meta.env.VITE_API_URL);
 
 const API = axios.create({
-  baseURL:"https://auth-app-bmpl.onrender.com/api/v1/authApp" // This will now have the full URL 
+  baseURL: import.meta.env.VITE_API_URL, // Using Vite env variable ✅
 });
 
 
