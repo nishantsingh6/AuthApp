@@ -1,7 +1,7 @@
 import axios from "axios";
  
 
-console.log('API URL:', process.env.VITE_API_URL);
+console.log('Vite API URL:', process.env.VITE_API_URL);
  // Check the value of your base URL
 
 const API = axios.create({
