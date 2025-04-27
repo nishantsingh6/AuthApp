@@ -2,7 +2,7 @@ import axios from "axios";
  
 
 const API = axios.create({
-  baseURL: process.env.API_URL || "http://localhost:5000/api/v1/authApp", // Updated base URL
+  baseURL: process.env.API_URL, // Updated base URL
 });
 
 API.interceptors.request.use((req) => {
