@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
  app.use(express.json());
-const allowedOrigins = ['https://auth-app-git-main-nishantsingh6s-projects.vercel.app'];
+const allowedOrigins = ['https://auth-app-azure-nine.vercel.app/'];
 
 app.use(cors({
   origin: allowedOrigins,
