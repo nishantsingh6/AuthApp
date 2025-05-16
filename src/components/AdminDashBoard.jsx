@@ -120,4 +120,39 @@ const AdminDashboard = () => {
             </button>
           </div>
 
-          {/* Dashboard
+          {/* Dashboard Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <DashboardCard
+              title="Total Users"
+              value={`${totalUsers} active users`}
+              darkMode={darkMode}
+            />
+            <DashboardCard
+              title="Active Courses"
+              value={`${activeCourses} active courses`}
+              darkMode={darkMode}
+            />
+            <DashboardCard
+              title="New Reports"
+              value={`${newReports} new reports`}
+              darkMode={darkMode}
+            />
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+const DashboardCard = ({ title, value, darkMode }) => (
+  <div
+    className={`p-6 rounded-xl shadow-md hover:shadow-lg transition ${
+      darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'
+    }`}
+  >
+    <h3 className="text-lg font-bold mb-2">{title}</h3>
+    <p className="text-gray-600 dark:text-gray-300 text-sm">{value}</p>
+  </div>
+);
+
+export default AdminDashboard;
