@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState ,useNavigate } from 'react';
 import API from '../../apiConnecter';
 import Spinner from './Spinner';
 import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
@@ -8,7 +8,7 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+   const navigate = useNavigate();
   useEffect(() => {
     const fetchAdminData = async () => {
       const token = localStorage.getItem('token')?.trim();
@@ -109,7 +109,7 @@ const AdminDashboard = () => {
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
               onClick={() => {
                 localStorage.removeItem('token');
-                 window.location.href = '/login';
+                navigate(/login);
               }}
             >
               Logout
