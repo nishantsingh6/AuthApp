@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import API from '../../apiConnecter';
 import Spinner from './Spinner';
 import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom'; // Importing useNavigate from react-router-dom
 
 const TeacherDashboard = () => {
   const [teacher, setTeacher] = useState(null);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Initializing useNavigate hook
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTeacherData = async () => {
@@ -74,7 +78,7 @@ const TeacherDashboard = () => {
             <div className="w-20 h-20 mx-auto mb-2 rounded-full bg-purple-500 flex items-center justify-center text-white text-2xl font-bold">
               {initials}
             </div>
-            <div className="font-semibold text-lg">{title+" "}{surname}</div>
+            <div className="font-semibold text-lg">{title + " "}{surname}</div>
             <div className="text-sm text-gray-400">{email}</div>
             <span className="mt-2 inline-block text-xs text-purple-600 bg-purple-100 px-2 py-1 rounded">
               Teacher
@@ -106,8 +110,11 @@ const TeacherDashboard = () => {
             <button
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
               onClick={() => {
-                localStorage.clear();
-                window.location.href = '/login';
+                // Remove the token from localStorage
+                localStorage.removeItem('token');
+                
+                // Navigate to the login page using react-router-dom's useNavigate hook
+                navigate('/login');
               }}
             >
               Logout
