@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useNavigate } from 'react';
+import React, { useEffect, useState } from 'react';
 import API from '../../apiConnecter';
 import Spinner from './Spinner';
 import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const StudentDashboard = () => {
   const [student, setStudent] = useState(null);
