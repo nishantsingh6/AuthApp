@@ -46,6 +46,12 @@ const StudentDashboard = () => {
     .join('')
     .toUpperCase();
 
+  
+  const handleLogout = () => {
+  localStorage.removeItem('token');
+  navigate('/login');
+};
+
   return (
     <div className={darkMode ? 'min-h-screen bg-gray-900 text-white' : 'min-h-screen bg-gray-100 text-black'}>
       {/* Mobile Header */}
@@ -103,10 +109,7 @@ const StudentDashboard = () => {
             <h1 className="text-2xl font-semibold">{message} 🎓</h1>
             <button
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              onClick={() => {
-                localStorage.removeItem('token');
-                navigate(/login);
-              }}
+                onClick={handleLogout}
             >
               Logout
             </button>
