@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../apiConnecter';
 import Spinner from './Spinner';
-import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom'; // Importing useNavigate from react-router-dom
+import { FiMenu, FiX } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const TeacherDashboard = () => {
   const [teacher, setTeacher] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  // Initializing useNavigate hook
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,7 +31,7 @@ const TeacherDashboard = () => {
   }, []);
 
   if (loading) return <Spinner />;
-  if (!teacher) return <div className="p-6 text-lg text-red-500">Unable to load teacher data. </div>;
+  if (!teacher) return <div className="p-6 text-lg text-red-500">Unable to load teacher data.</div>;
 
   const {
     message,
@@ -46,21 +43,19 @@ const TeacherDashboard = () => {
     unreadMessages = 4,
   } = teacher;
 
-  const initials = title
-    .split(' ')
-    .map((n) => n[0])
-    .join('')
-    .toUpperCase();
+  const initials = title?.split(' ').map((n) => n[0]).join('').toUpperCase() || '';
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
 
   return (
-    <div className={darkMode ? 'min-h-screen bg-gray-900 text-white' : 'min-h-screen bg-gray-100 text-black'}>
+    <div className="min-h-screen bg-gray-100 text-black">
       {/* Mobile Menu Button */}
-      <div className="md:hidden flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-md text-white">
+      <div className="md:hidden flex justify-between items-center p-4 bg-white shadow-md">
         <h1 className="text-lg font-semibold">Teacher Dashboard</h1>
         <div className="flex items-center gap-4">
-          <button onClick={() => setDarkMode((prev) => !prev)}>
-            {darkMode ? <FiSun /> : <FiMoon />}
-          </button>
           <button onClick={() => setIsSidebarOpen((prev) => !prev)}>
             {isSidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
@@ -72,14 +67,14 @@ const TeacherDashboard = () => {
         <aside
           className={`${
             isSidebarOpen ? 'block' : 'hidden'
-          } md:block w-64 h-screen bg-white dark:bg-gray-800 shadow-lg p-4 fixed md:static z-10 text-white`}
+          } md:block w-64 h-screen bg-white shadow-lg p-4 fixed md:static z-10 text-black`}
         >
           <div className="mb-8 text-center">
             <div className="w-20 h-20 mx-auto mb-2 rounded-full bg-purple-500 flex items-center justify-center text-white text-2xl font-bold">
               {initials}
             </div>
-            <div className="font-semibold text-lg">{title + " "}{surname}</div>
-            <div className="text-sm text-gray-400">{email}</div>
+            <div className="font-semibold text-lg">{`${title} ${surname}`}</div>
+            <div className="text-sm text-gray-500">{email}</div>
             <span className="mt-2 inline-block text-xs text-purple-600 bg-purple-100 px-2 py-1 rounded">
               Teacher
             </span>
@@ -92,15 +87,6 @@ const TeacherDashboard = () => {
             <li className="hover:text-purple-400 cursor-pointer">Submissions</li>
             <li className="hover:text-purple-400 cursor-pointer">Messages</li>
           </ul>
-
-          <div className="mt-8">
-            <button
-              onClick={() => setDarkMode((prev) => !prev)}
-              className="w-full px-4 py-2 text-sm rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
-            >
-              {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            </button>
-          </div>
         </aside>
 
         {/* Main Content */}
@@ -109,13 +95,7 @@ const TeacherDashboard = () => {
             <h1 className="text-2xl font-semibold">{message} 👩‍🏫</h1>
             <button
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              onClick={() => {
-                // Remove the token from localStorage
-                localStorage.removeItem('token');
-                
-                // Navigate to the login page using react-router-dom's useNavigate hook
-                navigate('/login');
-              }}
+              onClick={handleLogout}
             >
               Logout
             </button>
@@ -126,17 +106,14 @@ const TeacherDashboard = () => {
             <DashboardCard
               title="Courses You Teach"
               value={`${totalCourses} active courses`}
-              darkMode={darkMode}
             />
             <DashboardCard
               title="Pending Reviews"
               value={`${pendingReviews} assignments to review`}
-              darkMode={darkMode}
             />
             <DashboardCard
               title="Messages"
               value={`${unreadMessages} new messages`}
-              darkMode={darkMode}
             />
           </div>
         </main>
@@ -145,14 +122,10 @@ const TeacherDashboard = () => {
   );
 };
 
-const DashboardCard = ({ title, value, darkMode }) => (
-  <div
-    className={`p-6 rounded-xl shadow-md hover:shadow-lg transition ${
-      darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'
-    }`}
-  >
+const DashboardCard = ({ title, value }) => (
+  <div className="p-6 rounded-xl shadow-md hover:shadow-lg transition bg-white text-black">
     <h3 className="text-lg font-bold mb-2">{title}</h3>
-    <p className="text-gray-600 dark:text-gray-300 text-sm">{value}</p>
+    <p className="text-gray-600 text-sm">{value}</p>
   </div>
 );
 
