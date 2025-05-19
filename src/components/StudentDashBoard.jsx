@@ -33,30 +33,36 @@ const StudentDashboard = () => {
     setDarkMode(storedMode);
   }, []);
 
+  // Update HTML tag with dark class
   useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
     localStorage.setItem('darkMode', darkMode);
   }, [darkMode]);
 
-  if (loading) return <div className="p-6"><Spinner /></div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
 
-  const { message, title , email,surname,role } = student || {};
+  const { message, title, email, surname } = student || {};
+  const initials = title?.split(' ').map((n) => n[0]).join('').toUpperCase() || '';
 
-  const initials = title
-    .split(' ')
-    .map((n) => n[0])
-    .join('')
-    .toUpperCase();
-
-  
   const handleLogout = () => {
-  localStorage.removeItem('token');
-  navigate('/login');
-};
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
 
   return (
-    <div className={darkMode ? 'min-h-screen bg-gray-900 text-white' : 'min-h-screen bg-gray-100 text-black'}>
+    <div className="min-h-screen bg-gray-100 text-black dark:bg-gray-900 dark:text-white">
       {/* Mobile Header */}
-      <div className="md:hidden flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-md text-white">
+      <div className="md:hidden flex justify-between items-center p-4 shadow-md bg-white dark:bg-gray-800">
         <h1 className="text-lg font-semibold">Student Dashboard</h1>
         <div className="flex items-center gap-4">
           <button onClick={() => setDarkMode((prev) => !prev)}>
@@ -73,15 +79,15 @@ const StudentDashboard = () => {
         <aside
           className={`${
             isSidebarOpen ? 'block' : 'hidden'
-          } md:block w-64 h-screen bg-white dark:bg-gray-800 shadow-lg p-4 fixed md:static z-10 text-white`}
+          } md:block w-64 h-screen shadow-lg p-4 fixed md:static z-10 bg-white dark:bg-gray-800 text-black dark:text-white`}
         >
           <div className="mb-8 text-center">
             <div className="w-20 h-20 mx-auto mb-2 rounded-full bg-green-500 flex items-center justify-center text-white text-2xl font-bold">
               {initials}
             </div>
-            <div className="font-semibold text-lg">{title+" "}{surname}</div>
-            <div className="text-sm text-gray-400">{email}</div>
-            <span className="mt-2 inline-block text-xs text-green-600 bg-green-100 px-2 py-1 rounded">
+            <div className="font-semibold text-lg">{`${title} ${surname}`}</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">{email}</div>
+            <span className="mt-2 inline-block text-xs text-green-600 bg-green-100 dark:bg-green-800 dark:text-green-300 px-2 py-1 rounded">
               Student
             </span>
           </div>
@@ -110,7 +116,7 @@ const StudentDashboard = () => {
             <h1 className="text-2xl font-semibold">{message} 🎓</h1>
             <button
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                onClick={handleLogout}
+              onClick={handleLogout}
             >
               Logout
             </button>
@@ -120,17 +126,14 @@ const StudentDashboard = () => {
             <DashboardCard
               title="Enrolled Courses"
               value="You have 4 active courses."
-              darkMode={darkMode}
             />
             <DashboardCard
               title="Upcoming Assignments"
               value="2 assignments due this week."
-              darkMode={darkMode}
             />
             <DashboardCard
               title="Notifications"
               value="You have 3 new messages."
-              darkMode={darkMode}
             />
           </div>
         </main>
@@ -139,12 +142,8 @@ const StudentDashboard = () => {
   );
 };
 
-const DashboardCard = ({ title, value, darkMode }) => (
-  <div
-    className={`p-6 rounded-xl shadow-md hover:shadow-lg transition ${
-      darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'
-    }`}
-  >
+const DashboardCard = ({ title, value }) => (
+  <div className="p-6 rounded-xl shadow-md hover:shadow-lg transition bg-white dark:bg-gray-700 text-black dark:text-white">
     <h3 className="text-lg font-bold mb-2">{title}</h3>
     <p className="text-gray-600 dark:text-gray-300 text-sm">{value}</p>
   </div>
