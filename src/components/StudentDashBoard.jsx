@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../apiConnecter';
 import Spinner from './Spinner';
-import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
+import { FiMenu, FiX } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
 const StudentDashboard = () => {
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -29,19 +28,7 @@ const StudentDashboard = () => {
     };
 
     fetchStudentData();
-    const storedMode = localStorage.getItem('darkMode') === 'true';
-    setDarkMode(storedMode);
   }, []);
-
-  // Update HTML tag with dark class
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('darkMode', darkMode);
-  }, [darkMode]);
 
   if (loading) {
     return (
@@ -60,14 +47,11 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 text-black dark:bg-gray-900 dark:text-white">
+    <div className="min-h-screen bg-gray-100 text-black">
       {/* Mobile Header */}
-      <div className="md:hidden flex justify-between items-center p-4 shadow-md bg-white dark:bg-gray-800">
+      <div className="md:hidden flex justify-between items-center p-4 shadow-md bg-white">
         <h1 className="text-lg font-semibold">Student Dashboard</h1>
         <div className="flex items-center gap-4">
-          <button onClick={() => setDarkMode((prev) => !prev)}>
-            {darkMode ? <FiSun /> : <FiMoon />}
-          </button>
           <button onClick={() => setIsSidebarOpen((prev) => !prev)}>
             {isSidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
@@ -79,15 +63,15 @@ const StudentDashboard = () => {
         <aside
           className={`${
             isSidebarOpen ? 'block' : 'hidden'
-          } md:block w-64 h-screen shadow-lg p-4 fixed md:static z-10 bg-white dark:bg-gray-800 text-black dark:text-white`}
+          } md:block w-64 h-screen shadow-lg p-4 fixed md:static z-10 bg-white text-black`}
         >
           <div className="mb-8 text-center">
             <div className="w-20 h-20 mx-auto mb-2 rounded-full bg-green-500 flex items-center justify-center text-white text-2xl font-bold">
               {initials}
             </div>
             <div className="font-semibold text-lg">{`${title} ${surname}`}</div>
-            <div className="text-sm text-gray-500 dark:text-gray-400">{email}</div>
-            <span className="mt-2 inline-block text-xs text-green-600 bg-green-100 dark:bg-green-800 dark:text-green-300 px-2 py-1 rounded">
+            <div className="text-sm text-gray-500">{email}</div>
+            <span className="mt-2 inline-block text-xs text-green-600 bg-green-100 px-2 py-1 rounded">
               Student
             </span>
           </div>
@@ -99,15 +83,6 @@ const StudentDashboard = () => {
             <li className="hover:text-green-500 cursor-pointer">Assignments</li>
             <li className="hover:text-green-500 cursor-pointer">Profile</li>
           </ul>
-
-          <div className="mt-8">
-            <button
-              onClick={() => setDarkMode((prev) => !prev)}
-              className="w-full px-4 py-2 text-sm rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
-            >
-              {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            </button>
-          </div>
         </aside>
 
         {/* Main Content */}
@@ -143,9 +118,9 @@ const StudentDashboard = () => {
 };
 
 const DashboardCard = ({ title, value }) => (
-  <div className="p-6 rounded-xl shadow-md hover:shadow-lg transition bg-white dark:bg-gray-700 text-black dark:text-white">
+  <div className="p-6 rounded-xl shadow-md hover:shadow-lg transition bg-white text-black">
     <h3 className="text-lg font-bold mb-2">{title}</h3>
-    <p className="text-gray-600 dark:text-gray-300 text-sm">{value}</p>
+    <p className="text-gray-600 text-sm">{value}</p>
   </div>
 );
 
